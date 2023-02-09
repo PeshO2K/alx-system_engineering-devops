@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -user guillame -type f -exec chown betty {} \+ 
+find . -user guillaume -type f -exec chown betty {} \+ 
