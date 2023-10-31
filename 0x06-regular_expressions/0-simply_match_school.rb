@@ -1,3 +1,2 @@
 #!/usr/bin/env ruby
-
-/\bSchool\b/
+puts ARGV[0].scan(/\bSchool\b/).join
