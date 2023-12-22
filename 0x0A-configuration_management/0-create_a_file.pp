@@ -1,5 +1,6 @@
 # create school file
-file{'/tmp/school':
+
+file {'/tmp/school':
     path    => '/tmp/school'
     owner   => 'www-data',
     group   => 'www-data',
