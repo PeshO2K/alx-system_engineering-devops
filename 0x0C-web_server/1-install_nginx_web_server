@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# script to install ngnix and return page with "Hello world" when queried using curl in rrot
+# Update the package lists for upgrades and new package installations
+apt-get update -y
+
+# Install nginx
+apt-get install nginx -y
+
+# Remove the default nginx configuration
+rm /etc/nginx/sites-enabled/default
+
+# Create a new nginx configuration
+echo "server {
+    listen 80;
+    location / {
+        return 200 'Hello World!';
+        add_header Content-Type text/plain;
+    }
+}" > /etc/nginx/sites-available/web
+
+# Enable the new configuration
+ln -s /etc/nginx/sites-available/web /etc/nginx/sites-enabled/
+
+# Restart nginx
+service nginx restart
