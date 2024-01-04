@@ -32,7 +32,7 @@ apt-get update
 apt-get install -y nginx
 
 # Start Nginx (it usually starts automatically after installation)
-# service nginx start
+ service nginx start
 
 # Configure Nginx to listen on port 80
 echo "server {
