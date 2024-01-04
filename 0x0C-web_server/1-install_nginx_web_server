@@ -32,14 +32,15 @@ apt-get update
 apt-get install -y nginx
 
 # Start Nginx (it usually starts automatically after installation)
-service nginx restart
+# service nginx restart
 
 mkdir -p /var/www/html/
 echo 'Hello World!' > /var/www/html/index.html
+rm /etc/nginx/sites-enabled/default
 # Configure Nginx to listen on port 80
 echo "server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+    listen 80;
+    listen [::]:80;
 
     root /var/www/html;
     index index.html index.htm;
@@ -49,5 +50,11 @@ echo "server {
     location / {
         try_files \$uri \$uri/ =404;
     }
-}" > /etc/nginx/sites-available/default
+	location = / {
+        return 200;
+        add_header Content-Type text/plain;
+    }
+}" > /etc/nginx/sites-available/web
+
+ln -s /etc/nginx/sites-available/web /etc/nginx/sites-enabled/
 service nginx restart
