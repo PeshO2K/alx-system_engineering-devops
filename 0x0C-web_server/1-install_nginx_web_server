@@ -32,9 +32,9 @@ apt-get update
 apt-get install -y nginx
 
 # Start Nginx (it usually starts automatically after installation)
-service nginx start
+service nginx restart
 
-mkdir -p /var/www/html
+mkdir -p /var/www/html/
 # Configure Nginx to listen on port 80
 echo "server {
     listen 80 default_server;
@@ -50,9 +50,3 @@ echo "server {
         echo 'Hello World!' > /var/www/html/index.html;
     }
 }" | tee /etc/nginx/sites-available/default
-
-# Restart Nginx
-service nginx restart
-
-# Display a message indicating successful configuration
-# echo "Nginx installed and configured. You can test it by running: curl http://localhost/"
