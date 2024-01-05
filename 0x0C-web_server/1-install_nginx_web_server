@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
-# script to install ngnix and return page with "Hello world" when queried using curl in rrot
-# Update package list
-apt-get update
+# script to install ngnix and return page with "Hello world# Update package list
+apt-get update -y
 
 # Install Nginx
 apt-get install -y nginx
 
 service nginx start
 mkdir -p /var/www/html/
-echo 'Hello World!' > /var/www/html/index.html
+echo 'Hello World!' > /var/www/html/index.html 
 service nginx restart
