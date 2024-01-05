@@ -16,10 +16,10 @@ class nginx {
     content => "
 server {
     listen 80;
+	listen [::]:80;
     server_name _;
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
+	root /var/www/html;
+	index index.html index.htm;
     location /redirect_me {
         return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
