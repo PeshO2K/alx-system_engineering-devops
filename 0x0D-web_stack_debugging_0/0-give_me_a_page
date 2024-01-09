@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Fix my server by reloading, set the servername to suppress the AH0058 error
+echo "ServerName localhost" | sudo tee -a /etc/apache2/apache2.conf
+server apache2 reload
