@@ -1,31 +1,49 @@
+# Install nginx and configure it
 
-#!/usr/bin/env bash
-# Install and configure HAProxy lb-01 server in
-# round-robin to distribute loads between 2 webservers
+class nginx {
+  package { 'nginx':
+    ensure => installed,
+  }
 
-# Update the package index
-apt-get -y update
+  file { '/var/www/html/index.html':
+    ensure  => file,
+    content => 'Hello World!',
+    require => Package['nginx'],
+  }
 
-# Install HAProxy
-apt-get -y install haproxy
+file { '/var/www/html/custom_404.html':
+    ensure  => file,
+    content => "Ceci n'est pas une page",
+    require => Package['nginx'],
+  }
 
-# Start HAProxy
-systemctl start haproxy
+  file { '/etc/nginx/sites-available/default':
+    ensure  => file,
+    content => "
+server {
+    listen 80;
+	listen [::]:80;
+    add_header X-Served-By \$hostname;
+    server_name _;
+	root /var/www/html;
+	index index.html index.htm;
+    error_page 404 /custom_404.html;
+    location  = /custom_404.html {
+        root /var/www/html;
+        internal;
+    }
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}",
+    require => Package['nginx'],
+  }
 
-# Configure HAProxy
-echo "frontend myfrontend
-    mode http
-    bind :80
-    default_backend web_servers
+  service { 'nginx':
+    ensure    => running,
+    enable    => true,
+    subscribe => File['/etc/nginx/sites-available/default'],
+  }
+}
 
-backend web_servers
-    mode http
-    balance roundrobin
-    server 278531-web-01 18.204.14.158:80 check
-    server 278531-web-02 54.82.197.53:80 check" >> /etc/haproxy/haproxy.cfg
-
-# Set HAProxy to autostart on reboot
-systemctl enable haproxy
-
-# Restart HAProxy to apply changes
-systemctl restart haproxy
+include nginx
