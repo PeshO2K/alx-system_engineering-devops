@@ -22,7 +22,6 @@ backend web_servers
 
 # Set HAProxy to autostart on reboot
 sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/haproxy
-systemctl enable haproxy
 
 # Restart HAProxy to apply changes
-systemctl restart haproxy
+/etc/init.d/haproxy restart
