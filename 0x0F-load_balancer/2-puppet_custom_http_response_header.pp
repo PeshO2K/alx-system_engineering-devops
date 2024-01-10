@@ -1,49 +1,6 @@
-# Install nginx and configure it
+#Add a custom HTTP header with Puppet
 
-class nginx {
-  package { 'nginx':
-    ensure => installed,
-  }
-
-  file { '/var/www/html/index.html':
-    ensure  => file,
-    content => 'Hello World!',
-    require => Package['nginx'],
-  }
-
-file { '/var/www/html/custom_404.html':
-    ensure  => file,
-    content => "Ceci n'est pas une page",
-    require => Package['nginx'],
-  }
-
-  file { '/etc/nginx/sites-available/default':
-    ensure  => file,
-    content => "
-server {
-    listen 80;
-	listen [::]:80;
-    add_header X-Served-By \$hostname;
-    server_name _;
-	root /var/www/html;
-	index index.html index.htm;
-    error_page 404 /custom_404.html;
-    location  = /custom_404.html {
-        root /var/www/html;
-        internal;
-    }
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-}",
-    require => Package['nginx'],
-  }
-
-  service { 'nginx':
-    ensure    => running,
-    enable    => true,
-    subscribe => File['/etc/nginx/sites-available/default'],
-  }
+exec { 'Install':
+  command  => 'INDEX="Holberton School for the win!" && ERROR="Ceci n\'est pas une page - 404" && sudo apt-get -y update && sudo apt-get -y install nginx && echo "$INDEX" | sudo tee /var/www/html/index.nginx-debian.html > /dev/null && echo "$ERROR" | sudo tee /var/www/html/custom_404.html > /dev/null && sudo sed -i \'/^\sserver_name.*/a \        rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\' /etc/nginx/sites-available/default && sudo sed -i \'/^\slocation.*/i \        error_page 404 /custom_404.html;\' /etc/nginx/sites-available/default && sudo sed -i \'/^\slocation.*/i \        add_header X-Served-By $hostname;\' /etc/nginx/sites-available/default && sudo service nginx start',
+  provider => shell,
 }
-
-include nginx
