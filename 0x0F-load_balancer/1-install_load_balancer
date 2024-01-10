@@ -24,6 +24,7 @@ backend web_servers
     server 278531-web-02 54.82.197.53:80 check" >> /etc/haproxy/haproxy.cfg
 
 # Set HAProxy to autostart on reboot
+sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/haproxy
 systemctl enable haproxy
 
 # Restart HAProxy to apply changes
