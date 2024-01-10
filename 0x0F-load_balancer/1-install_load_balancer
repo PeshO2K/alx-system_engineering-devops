@@ -8,9 +8,6 @@ apt-get -y update
 # Install HAProxy
 apt-get -y install haproxy
 
-# Start HAProxy
-systemctl start haproxy
-
 # Configure HAProxy
 echo "frontend myfrontend
     mode http
