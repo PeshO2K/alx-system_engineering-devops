@@ -23,6 +23,7 @@ file { '/var/www/html/custom_404.html':
 server {
     listen 80;
 	listen [::]:80;
+    add_header X-Served-By \$hostname;
     server_name _;
 	root /var/www/html;
 	index index.html index.htm;
