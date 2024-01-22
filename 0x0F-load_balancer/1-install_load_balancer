@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Install and configure HAProxy lb-01 server in
+# round-robin to distribute loads between 2 webservers
+
+# Update the package index
+apt-get -y update
+
+# Install HAProxy
+apt-get -y install haproxy
+
+# Configure HAProxy
+echo "frontend myfrontend
+    mode http
+    bind :80
+    default_backend web_servers
+
+backend web_servers
+    mode http
+    balance roundrobin
+    server 278531-web-01 18.204.14.158:80 check
+    server 278531-web-02 54.82.197.53:80 check" >> /etc/haproxy/haproxy.cfg
+
+# Set HAProxy to autostart on reboot
+sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/haproxy
+
+# Restart HAProxy to apply changes
+/etc/init.d/haproxy restart
