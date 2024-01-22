@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Restoring sites-enabled from sites-available
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+/etc/init.d/nginx restart
