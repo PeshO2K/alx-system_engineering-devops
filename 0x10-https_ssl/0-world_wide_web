@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# script to domain and sub domain
+
+get_subdomain_info() {
+    sub_domain=$1
+    domain=$2
+    record_type=$(dig $sub_domain.$domain +short -t A | awk '{print $1}')
+    destination=$(dig $sub_domain.$domain +short | awk 'NR==1{print}')
+    echo "The subdomain $sub_domain is a $record_type record and points to $destination"
+}
+
+main() {
+    domain=$1
+    sub_domain=$2
+
+    if [ -z "$sub_domain" ]; then
+        sub_domains=("www" "lb-01" "web-01" "web-02")
+        for sub in "${sub_domains[@]}"; do
+            get_subdomain_info $sub $domain
+        done
+    else
+        get_subdomain_info $sub_domain $domain
+    fi
+}
+
+main "$@"
