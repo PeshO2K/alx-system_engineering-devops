@@ -36,10 +36,12 @@ defaults
 frontend myfrontend
     mode http
     bind :80
+    bind *:443 ssl crt /etc/letsencrypt/live/www.otuke.tech/otuke.tech.pem
     default_backend web_servers
 
 backend web_servers
     mode http
     balance roundrobin
+    http-request set-header X-Content-Source Holberton-School if { path -i -m beg / }
     server 278531-web-01 18.204.14.158:80 check
     server 278531-web-02 54.82.197.53:80 check
