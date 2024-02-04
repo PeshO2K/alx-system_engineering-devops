@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Configuration of nginx on docker
+# setting the user for nginx
+sed -i "1 i\user nginx;" /etc/nginx/nginx.conf
+chmod 644 /etc/nginx/nginx.conf
+# Replacement of all port 80 by 8080
+sed -i 's/80/8080/g' /etc/nginx/sites-available/default
+# Stop any process that is currently running on 8080
+kill "$(lsof -i:8080 -t)"
+# Restart nginx
+su nginx -c 'service nginx restart'
