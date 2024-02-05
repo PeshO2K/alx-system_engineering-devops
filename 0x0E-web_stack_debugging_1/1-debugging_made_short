@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Short and sweet
 sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
-service nginx restart
+ updaservice nginx restart
 kill -9 "$(cat /var/run/nginx.pid)"
