@@ -9,16 +9,10 @@ fi
 MYSQL_USER="root"
 MYSQL_PASSWORD="$1"
 
-# Directory to store backup
-BACKUP_DIR="."
-
-# Ensure the backup directory exists
-mkdir -p "$BACKUP_DIR"
-
 # Current date in the specified format
 DATE_FORMAT=$(date +"%d-%m-%Y")
 BACKUP_FILE="backup.sql"
-COMP_FILE="$BACKUP_DIR/$DATE_FORMAT.tar.gz"
+COMP_FILE="$$DATE_FORMAT.tar.gz"
 
 # Perform MySQL dump
 mysqldump -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" --all-databases > "$BACKUP_FILE"
@@ -31,7 +25,7 @@ if [ $? -eq 0 ]; then
     # Compress the backup into a tar.gz archive
     tar -czf "$COMP_FILE"  "$BACKUP_FILE"
 
-    echo "Backup completed: $BACKUP_DIR/$DATE_FORMAT.tar.gz"
+    echo "Backup completed: $DATE_FORMAT.tar.gz"
 else
     echo "Error: MySQL dump failed."
     exit 1
