@@ -22,7 +22,8 @@ def gather_data(emp_id):
     if (tasks.ok):
         tdata = tasks.json()
         tcompleted = [task for task in tdata if task['completed'] is True]
-        alltasks = [{"USER_ID": emp_id, "USERNAME": emp_name,
+        # print(tdata)
+        alltasks = [{"USER_ID": emp_id, "USERNAME": edata['username'],
                      "TASK_COMPLETED_STATUS": task['completed'],
                      "TASK_TITLE": task['title']} for task in tdata]
         # print(tcompleted)
