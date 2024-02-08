@@ -37,13 +37,14 @@ def completed_tasks(data_tuple):
             ttitles])
     print(my_comp_tasks)
 
+
 def to_csv(data_tuple):
     '''create csv file'''
     edata = data_tuple[0]
     tdata = data_tuple[1]
     alltasks = [{"USER_ID": edata['id'], "USERNAME": edata['username'],
-                    "TASK_COMPLETED_STATUS": task['completed'],
-                    "TASK_TITLE": task['title']} for task in tdata]
+                "TASK_COMPLETED_STATUS": task['completed'],
+                 "TASK_TITLE": task['title']} for task in tdata]
     filename = f"{edata['id']}.csv"
 
     # Format must be: "USER_ID","USERNAME","TASK_COMPLETED_STATUS","TASK_TITLE"
