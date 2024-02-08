@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+'''script to get data from rest api'''
 if __name__ == "__main__":
     import json
     import requests
