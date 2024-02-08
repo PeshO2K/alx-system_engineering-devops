@@ -41,7 +41,7 @@ def gather_data(emp_id):
     # print(alltasks)
     with open(filename, 'w', newline='') as csvfile:
         fieldnames = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
         for task in alltasks:
             writer.writerow(task)
     # return(my_output)
