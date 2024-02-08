@@ -1,27 +1,27 @@
 #!/usr/bin/python3
-"""a Python script that exports to JSON"""
+""" contains a python script that, using the JSONplaceholder API, for a given
+    employee ID, returns information about employees todo list progress """
+import csv
 import json
 import requests
+from sys import argv
 
 
-if __name__ == "__main__":
-    """a function that exports JSON dictionary of list of dictionaries"""
-    url = "https://jsonplaceholder.typicode.com/users"
-    users = requests.get(url).json()
-    dictionary = {}
-    for user in users:
-        user_id = user.get("id")
-        username = user.get("username")
-        tasks = requests.get("{}/{}/todos".format(url, user_id)).json()
-        dict_list = []
-        for task in tasks:
-            if (task.get("userId") == user_id and task.get("completed")):
-                tmp_dict = {}
-                tmp_dict["task"] = task.get("title")
-                tmp_dict["completed"] = task.get("completed")
-                tmp_dict["username"] = username
-                dict_list.append(tmp_dict)
-        dictionary[user_id] = dict_list
-
-    with open("todo_all_employees.json", "w+") as file:
-        json.dump(dictionary, file)
+if __name__ == '__main__':
+    userId = argv[1]
+    name = requests.get('https://jsonplaceholder.typicode.com/users/{}'
+                        .format(userId)).json()
+    # todo variable = grabs all todos (completed or not) for the user passed in
+    todo = requests.get('https://jsonplaceholder.typicode.com/todos?userId={}'
+                        .format(userId)).json()
+    taskslist = []
+    for task in todo:
+        mydict = {}
+        mydict["task"] = task.get('title')
+        mydict["completed"] = task.get('completed')
+        mydict["username"] = name.get('username')
+        taskslist.append(mydict)
+    jsonobj = {}
+    jsonobj[userId] = taskslist
+    with open("{}.json".format(userId), 'w') as ajsonfile:
+        json.dump(jsonobj, ajsonfile)
