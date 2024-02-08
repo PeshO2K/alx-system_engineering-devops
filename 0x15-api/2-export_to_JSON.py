@@ -65,7 +65,7 @@ def to_json(data_tuple):
     user_id = edata['id']
     alltasks = [{"task": task['title'],
                 "completed": task['completed'],
-                "username": edata['username']} for task in tdata]
+                 "username": edata['username']} for task in tdata]
 
     json_data = {user_id: alltasks}
 
