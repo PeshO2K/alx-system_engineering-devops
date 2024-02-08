@@ -62,10 +62,10 @@ def to_json(data_tuple):
     '''export to json'''
     edata = data_tuple[0]
     tdata = data_tuple[1]
-    user_id = edata['id']
-    alltasks = [{"task": task['title'],
-                "completed": task['completed'],
-                 "username": edata['username']} for task in tdata]
+    user_id = edata.get('id')
+    alltasks = [{"task": task.get('title'),
+                "completed": task.get('completed'),
+                 "username": edata.get('username')} for task in tdata]
 
     json_data = {}
     json_data[user_id] = alltasks
