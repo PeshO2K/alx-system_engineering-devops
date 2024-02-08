@@ -23,7 +23,8 @@ def gather_data(emp_id):
         tdata = tasks.json()
         tcompleted = [task for task in tdata if task['completed'] is True]
         alltasks = [{"USER_ID": emp_id, "USERNAME": emp_name,
-                     "TASK_COMPLETED_STATUS": task['completed'], "TASK_TITLE": task['title']} for task in tcompleted]
+                     "TASK_COMPLETED_STATUS": task['completed'],
+                     "TASK_TITLE": task['title']} for task in tdata]
         # print(tcompleted)
         tdone = len(tcompleted)
         ttotal = len(tdata)
@@ -32,25 +33,20 @@ def gather_data(emp_id):
         # print(tdata)
     else:
         tasks.raise_for_status()
-    my_output = "\t".join([f"Employee {emp_name} is done with tasks({tdone}/{ttotal}):",
-                          ttitles])
+    my_output = "\t".join(
+        [f"Employee {emp_name} is done with tasks({tdone}/{ttotal}):",
+            ttitles])
     # print(my_output)
     filename = f"{emp_id}.csv"
 
     # Format must be: "USER_ID","USERNAME","TASK_COMPLETED_STATUS","TASK_TITLE"
     # print(alltasks)
     with open(filename, 'w', newline='') as csvfile:
-        fieldnames = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
+        fields = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
+        writer = csv.DictWriter(csvfile, fieldnames=fields,
+                                quoting=csv.QUOTE_ALL)
         for task in alltasks:
             writer.writerow(task)
-    # return(my_output)
-
-
-    # cdata = [emp_id, emp_id, task['completed'], task['title'] for task in tdata]
-    # print(cdata)
-    # with open(filename, w)
-
 
 
 if __name__ == "__main__":
