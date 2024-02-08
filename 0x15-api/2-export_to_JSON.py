@@ -67,8 +67,8 @@ def to_json(data_tuple):
                 "completed": task['completed'],
                  "username": edata['username']} for task in tdata]
 
-    json_data = {user_id: alltasks}
-
+    json_data = {}
+    json_data[user_id] = alltasks
     filename = f"{user_id}.json"
 
     with open(filename, 'w') as jsonfile:
