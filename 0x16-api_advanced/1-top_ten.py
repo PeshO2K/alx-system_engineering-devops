@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Define top_ten function"""
-import requests
 
 
 def top_ten(subreddit):
